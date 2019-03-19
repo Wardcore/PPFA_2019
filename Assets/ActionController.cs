@@ -49,6 +49,32 @@ public class ActionController : MonoBehaviour
         }
 	}
 
+    void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.layer == 9){
+            if(other.tag == "Mech"){
+                UIManager.WriteActionMessage("Press E to enter");
+            }
+
+            if(other.tag == "Weapon"){
+                UIManager.WriteActionMessage("Press E to pick up");
+            }
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if(other.gameObject.layer == 9){
+            if(other.tag == "Mech"){
+                UIManager.WriteActionMessage("");
+            }
+
+            if(other.tag == "Weapon"){
+                UIManager.WriteActionMessage("");
+            }
+        }
+    }
+
     void OnTriggerStay(Collider other)
     {
         if(other.gameObject.layer == 9){
@@ -57,7 +83,8 @@ public class ActionController : MonoBehaviour
                     m_isInteracting = false;
                     //print("hasInteract with : " + other.transform.parent.name);
                     canInteract = m_PlayerWeapons.canShoot = false;
-                    other.transform.parent.GetComponent<MechController>().ActiveMech();
+                    UIManager.WriteActionMessage("");
+                    other.transform.parent.parent.GetComponent<MechController>().ActiveMech();
                 }
             }
 
@@ -67,6 +94,7 @@ public class ActionController : MonoBehaviour
 
                     //Ref of the weapon selected
                     Weapons weapon = other.transform.parent.GetComponent<Weapons>();
+                    UIManager.WriteActionMessage("");
 
                     // //Throw the old weapon
                     // if(m_PlayerWeapons.m_weaponEquiped)
